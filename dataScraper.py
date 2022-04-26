@@ -10,13 +10,21 @@ from sheet import *
 # hiding the browser window and for one error solution 
 
 def dataScraper():
-    try:
-        options = webdriver.ChromeOptions()
-        options.headless = True
-        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options = webdriver.ChromeOptions()
+    
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument('--no-sandbox')
+    options.headless = True
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
         # giving web browser webdriver path
-        driver = webdriver.Chrome('chromedriver.exe', options = options)
+    # for windows
+    # driver = webdriver.Chrome('chromedriver.exe', options = options)
+
+    # for ubuntu
+    driver = webdriver.Chrome(service = Service('./drivers/chromedriver'), options = options) 
+
+    try:
         # requesting the site to fetch the data
         url = sheetGet.cell(1,2).value
         driver.get(url)
